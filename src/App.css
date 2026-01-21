@@ -1,0 +1,1316 @@
+/* ==========================================
+   YouTube Downloader - Professional Styles
+   ========================================== */
+
+/* Glass Card Effect */
+.glass-card {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-xl);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: all var(--transition-normal);
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Gradient Button Styles */
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-700) 100%);
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.5);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.btn-primary:hover::before {
+  left: 100%;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-success {
+  background: linear-gradient(135deg, var(--success-500) 0%, var(--success-700) 100%);
+  color: white;
+  border: none;
+  padding: 16px 32px;
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.5);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-success::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.btn-success:hover::before {
+  left: 100%;
+}
+
+.btn-success:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(34, 197, 94, 0.6);
+}
+
+.btn-success:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Input Styles */
+.input-modern {
+  width: 100%;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  color: white;
+  font-size: 16px;
+  font-family: inherit;
+  transition: all var(--transition-normal);
+}
+
+.input-modern::placeholder {
+  color: var(--gray-400);
+}
+
+.input-modern:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.input-modern:focus {
+  outline: none;
+  border-color: var(--primary-500);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+}
+
+/* Alert Styles */
+.alert {
+  padding: 16px 20px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.alert-error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+}
+
+.alert-success {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #86efac;
+}
+
+/* Format Card Styles */
+.format-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+.format-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.format-card:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateX(6px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.format-card:hover::before {
+  opacity: 1;
+}
+
+.format-card.selected {
+  border-color: #22c55e;
+  background: rgba(34, 197, 94, 0.12);
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.3);
+}
+
+.format-card.selected::before {
+  opacity: 1;
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(22, 163, 74, 0.15) 100%);
+}
+
+/* Badge Styles */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.badge-video {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(220, 38, 38, 0.2) 100%);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.badge-audio {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+  color: #d8b4fe;
+  border: 1px solid rgba(168, 85, 247, 0.4);
+}
+
+.badge-quality {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(37, 99, 235, 0.2) 100%);
+  color: #93c5fd;
+  border: 1px solid rgba(59, 130, 246, 0.4);
+}
+
+/* Video Info Card */
+.video-thumbnail {
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  transition: transform var(--transition-normal);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.video-thumbnail:hover {
+  transform: scale(1.03);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* Stats Item */
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  color: var(--gray-300);
+  font-size: 14px;
+}
+
+.stat-item svg {
+  width: 18px;
+  height: 18px;
+  color: var(--gray-400);
+}
+
+/* Section Title */
+.section-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-title svg {
+  color: var(--primary-400);
+}
+
+/* Loading Spinner */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* 🚀 Formats Loading State */
+.formats-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 16px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.formats-loading .spinner {
+  width: 40px;
+  height: 40px;
+  border-width: 3px;
+  border-color: rgba(59, 130, 246, 0.3);
+  border-top-color: var(--primary-500);
+}
+
+.formats-loading p {
+  font-size: 15px;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Background Decorations */
+.bg-decoration {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.bg-decoration-1 {
+  width: 600px;
+  height: 600px;
+  background: var(--primary-600);
+  top: -200px;
+  right: -200px;
+}
+
+.bg-decoration-2 {
+  width: 500px;
+  height: 500px;
+  background: #8b5cf6;
+  bottom: -150px;
+  left: -150px;
+}
+
+.bg-decoration-3 {
+  width: 300px;
+  height: 300px;
+  background: #ec4899;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Progress Bar */
+.progress-bar {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-500), var(--primary-400));
+  border-radius: var(--radius-full);
+  transition: width var(--transition-normal);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .glass-card {
+    border-radius: var(--radius-lg);
+  }
+  
+  .btn-primary,
+  .btn-success {
+    padding: 14px 20px;
+    font-size: 14px;
+  }
+  
+  .input-modern {
+    padding: 14px 16px;
+    font-size: 15px;
+  }
+}
+
+/* Line clamp utility */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  margin: 24px 0;
+}
+
+/* ==========================================
+   App Layout Styles
+   ========================================== */
+
+.app-container {
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.app-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.logo-container {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 24px;
+}
+
+.logo-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 10px 40px rgba(239, 68, 68, 0.4);
+  animation: float 3s ease-in-out infinite;
+}
+
+.logo-badge {
+  position: absolute;
+  bottom: -8px;
+  right: -8px;
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-700) 100%);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+  border: 3px solid #0c0c0c;
+}
+
+.app-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  color: white;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--primary-400) 0%, #a78bfa 50%, #f472b6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.app-subtitle {
+  font-size: 1.1rem;
+  color: var(--gray-400);
+  max-width: 500px;
+  margin: 0 auto 28px;
+  line-height: 1.7;
+}
+
+.feature-pills {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.feature-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-full);
+  color: var(--gray-300);
+  font-size: 13px;
+  font-weight: 500;
+  transition: all var(--transition-normal);
+}
+
+.feature-pill:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.feature-pill svg {
+  color: var(--primary-400);
+}
+
+.app-main {
+  position: relative;
+}
+
+.app-footer {
+  text-align: center;
+  margin-top: 64px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footer-text {
+  color: var(--gray-400);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.heart-icon {
+  color: #ef4444;
+  fill: #ef4444;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.footer-disclaimer {
+  color: var(--gray-500);
+  font-size: 13px;
+}
+
+.footer-note {
+  color: var(--gray-600);
+  font-size: 12px;
+}
+
+/* Back Button */
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: var(--gray-300);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-bottom: 24px;
+}
+
+.back-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateX(-4px);
+}
+
+/* Platform-specific logo styles */
+.youtube-logo {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+  box-shadow: 0 10px 40px rgba(239, 68, 68, 0.4) !important;
+}
+
+.facebook-logo {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
+  box-shadow: 0 10px 40px rgba(59, 130, 246, 0.4) !important;
+}
+
+.facebook-badge {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4) !important;
+}
+
+.gradient-text-fb {
+  background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 50%, #93c5fd 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Instagram specific styles */
+.instagram-logo {
+  background: linear-gradient(135deg, #E1306C 0%, #C13584 40%, #833AB4 80%, #5851DB 100%);
+}
+
+.instagram-badge {
+  background: linear-gradient(135deg, #F77737, #FD1D1D, #E1306C);
+}
+
+.gradient-text-ig {
+  background: linear-gradient(135deg, #E1306C 0%, #C13584 40%, #833AB4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* App layout responsive */
+@media (max-width: 640px) {
+  .app-wrapper {
+    padding: 24px 16px;
+  }
+
+  .logo-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+  }
+
+  .logo-icon svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .logo-badge {
+    width: 28px;
+    height: 28px;
+    bottom: -6px;
+    right: -6px;
+  }
+
+  .feature-pills {
+    gap: 8px;
+  }
+
+  .feature-pill {
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+}
+
+/* ==========================================
+   Instagram Downloader Styles
+   ========================================== */
+
+.ig-downloader {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Input Section */
+.input-section {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.input-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+.input-icon {
+  color: #E1306C;
+}
+
+.url-form {
+  width: 100%;
+}
+
+.input-wrapper {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.url-input {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 14px 18px;
+  color: white;
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+.url-input:focus {
+  outline: none;
+  border-color: #E1306C;
+  box-shadow: 0 0 0 3px rgba(225, 48, 108, 0.2);
+}
+
+.url-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.url-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.fetch-btn {
+  background: linear-gradient(135deg, #E1306C 0%, #C13584 50%, #833AB4 100%);
+  color: white;
+  border: none;
+  padding: 14px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.fetch-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(225, 48, 108, 0.4);
+}
+
+.fetch-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.url-hints {
+  margin-top: 12px;
+}
+
+.hint {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 13px;
+}
+
+/* Messages */
+.message {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.error-message {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+}
+
+.success-message {
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #86efac;
+}
+
+/* Video Info Section */
+.video-info-section {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 24px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.video-preview {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.thumbnail-container {
+  position: relative;
+  width: 200px;
+  min-width: 200px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.thumbnail {
+  width: 100%;
+  height: auto;
+  display: block;
+  aspect-ratio: 9/16;
+  object-fit: cover;
+}
+
+.thumbnail-placeholder {
+  width: 100%;
+  aspect-ratio: 9/16;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.duration-badge {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.platform-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: linear-gradient(135deg, #E1306C 0%, #C13584 100%);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.video-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.video-title {
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.video-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+}
+
+.author-item {
+  color: #E1306C;
+  font-weight: 500;
+}
+
+.video-caption {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.quality-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.quality-badge {
+  background: linear-gradient(135deg, #E1306C 0%, #833AB4 100%);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.quality-note {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+}
+
+/* Progress Section */
+.progress-section {
+  margin-bottom: 20px;
+}
+
+.progress-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+}
+
+.progress-percent {
+  margin-left: auto;
+  font-weight: 600;
+  color: #E1306C;
+}
+
+.progress-bar-container {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #E1306C 0%, #C13584 50%, #833AB4 100%);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+/* Download Button */
+.download-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #E1306C 0%, #C13584 50%, #833AB4 100%);
+  color: white;
+  border: none;
+  padding: 16px 32px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(225, 48, 108, 0.4);
+}
+
+.download-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(225, 48, 108, 0.5);
+}
+
+.download-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Spin animation */
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive for Instagram */
+@media (max-width: 640px) {
+  .video-preview {
+    flex-direction: column;
+  }
+
+  .thumbnail-container {
+    width: 100%;
+    min-width: auto;
+  }
+
+  .thumbnail {
+    aspect-ratio: 16/9;
+  }
+
+  .input-wrapper {
+    flex-direction: column;
+  }
+
+  .fetch-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ==========================================
+   TikTok Downloader Styles
+   ========================================== */
+
+.tiktok-downloader {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* TikTok Logo Styles */
+.tiktok-logo {
+  background: linear-gradient(135deg, #000000 0%, #25F4EE 50%, #FE2C55 100%);
+  position: relative;
+}
+
+.tiktok-badge {
+  background: linear-gradient(135deg, #25F4EE 0%, #FE2C55 100%) !important;
+  box-shadow: 0 4px 15px rgba(254, 44, 85, 0.4) !important;
+}
+
+.gradient-text-tiktok {
+  background: linear-gradient(135deg, #25F4EE 0%, #FE2C55 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ==========================================
+   X (Twitter) Downloader Styles
+   ========================================== */
+
+/* Twitter Logo Styles */
+.twitter-logo {
+  background: linear-gradient(135deg, #000000 0%, #14171A 100%);
+  position: relative;
+}
+
+.twitter-badge {
+  background: linear-gradient(135deg, #1DA1F2 0%, #0d8ecf 100%) !important;
+  box-shadow: 0 4px 15px rgba(29, 161, 242, 0.4) !important;
+}
+
+.gradient-text-twitter {
+  background: linear-gradient(135deg, #1DA1F2 0%, #0d8ecf 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* TikTok Input Field */
+.tiktok-input-field:focus {
+  border-color: #FE2C55 !important;
+  box-shadow: 0 0 0 3px rgba(254, 44, 85, 0.2) !important;
+}
+
+.tiktok-icon-color {
+  color: #FE2C55 !important;
+}
+
+/* TikTok Fetch Button */
+.tiktok-fetch-btn {
+  background: linear-gradient(135deg, #25F4EE 0%, #FE2C55 100%) !important;
+  box-shadow: 0 4px 15px rgba(254, 44, 85, 0.3) !important;
+}
+
+.tiktok-fetch-btn:hover:not(:disabled) {
+  box-shadow: 0 8px 25px rgba(254, 44, 85, 0.4) !important;
+}
+
+/* TikTok Video Section */
+.tiktok-video-section .thumbnail-container {
+  border: 2px solid rgba(254, 44, 85, 0.3);
+}
+
+.tiktok-thumbnail {
+  background: linear-gradient(135deg, rgba(37, 244, 238, 0.1) 0%, rgba(254, 44, 85, 0.1) 100%);
+}
+
+.tiktok-badge {
+  background: linear-gradient(135deg, #25F4EE 0%, #FE2C55 100%);
+}
+
+.tiktok-author {
+  color: #25F4EE !important;
+}
+
+/* TikTok Quality Badge */
+.tiktok-quality {
+  background: linear-gradient(135deg, #25F4EE 0%, #FE2C55 100%) !important;
+}
+
+/* Watermark Toggle */
+.watermark-toggle {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.toggle-label input {
+  display: none;
+}
+
+.toggle-switch {
+  width: 48px;
+  height: 26px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 13px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.toggle-switch::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  top: 3px;
+  left: 3px;
+  transition: all 0.3s ease;
+}
+
+.toggle-label input:checked + .toggle-switch {
+  background: linear-gradient(135deg, #25F4EE 0%, #FE2C55 100%);
+}
+
+.toggle-label input:checked + .toggle-switch::after {
+  transform: translateX(22px);
+}
+
+.toggle-text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.toggle-text svg {
+  color: #FE2C55;
+}
+
+/* TikTok Progress */
+.tiktok-progress {
+  color: #FE2C55 !important;
+}
+
+.tiktok-progress-bar {
+  background: linear-gradient(90deg, #25F4EE 0%, #FE2C55 100%) !important;
+}
+
+/* TikTok Download Button */
+.tiktok-download-btn {
+  background: linear-gradient(135deg, #25F4EE 0%, #FE2C55 100%) !important;
+  box-shadow: 0 4px 15px rgba(254, 44, 85, 0.4) !important;
+}
+
+.tiktok-download-btn:hover:not(:disabled) {
+  box-shadow: 0 8px 25px rgba(254, 44, 85, 0.5) !important;
+}
+
+/* Video Caption for TikTok */
+.video-caption {
+  margin-top: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ==========================================
+   Direct URL Downloader Styles
+   ========================================== */
+
+.direct-downloader {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Direct URL Logo Styles */
+.direct-logo {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  position: relative;
+}
+
+.direct-badge {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%) !important;
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4) !important;
+}
+
+.gradient-text-direct {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Direct URL Input Field */
+.direct-input-field:focus {
+  border-color: #10B981 !important;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2) !important;
+}
+
+.direct-icon-color {
+  color: #10B981 !important;
+}
+
+/* Direct URL Video Section */
+.direct-video-section {
+  background: rgba(16, 185, 129, 0.05);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 16px;
+  padding: 24px;
+  margin-top: 20px;
+}
+
+/* Direct URL Progress */
+.direct-progress {
+  color: #10B981 !important;
+}
+
+.direct-progress-bar {
+  background: linear-gradient(90deg, #10B981 0%, #059669 100%) !important;
+}
+
+/* Direct URL Download Button */
+.direct-download-btn {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%) !important;
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4) !important;
+}
+
+.direct-download-btn:hover:not(:disabled) {
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.5) !important;
+}
