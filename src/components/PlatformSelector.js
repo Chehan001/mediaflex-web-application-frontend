@@ -32,7 +32,7 @@ const PlatformSelector = ({ onSelectPlatform, setInitialUrl }) => {
         ),
         color: '#FF0000',
         gradient: 'linear-gradient(135deg, #FF0000 0%, #CC0000 100%)',
-        description: 'Download videos, shorts & music',
+        description: 'Download videos & shorts',
         features: ['4K/8K Quality', 'Audio Only', 'Subtitles'],
       },
       {
@@ -271,55 +271,6 @@ const PlatformSelector = ({ onSelectPlatform, setInitialUrl }) => {
         </form>
       </div>
 
-      {/* Navigation Bar Above Cards */}
-      <div className="ps-navBar">
-        <button className="ps-navArrowButton" onClick={goToPrev} aria-label="Previous platform">
-          <svg viewBox="0 0 24 24" fill="currentColor" className="ps-arrowIcon">
-            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
-          </svg>
-        </button>
-
-        <div className="ps-dotsContainer">
-          {platforms.map((platform, index) => (
-            <button
-              key={platform.id}
-              className={`ps-dot ${index === activeIndex ? 'ps-dotActive' : ''}`}
-              style={
-                index === activeIndex
-                  ? { background: platform.gradient, boxShadow: `0 0 20px ${platform.color}` }
-                  : undefined
-              }
-              onClick={() => goToIndex(index)}
-              aria-label={`Go to ${platform.name}`}
-            />
-          ))}
-        </div>
-
-        <button className="ps-navArrowButton" onClick={goToNext} aria-label="Next platform">
-          <svg viewBox="0 0 24 24" fill="currentColor" className="ps-arrowIcon">
-            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
-          </svg>
-        </button>
-      </div>
-
-      {/* Instruction Card */}
-      <div className="ps-instructionCard">
-        <div className="ps-instructionItem">
-          <div className="ps-keyGroup">
-            <kbd className="ps-kbd">←</kbd>
-            <kbd className="ps-kbd">→</kbd>
-          </div>
-          <span className="ps-instructionLabel">Navigate</span>
-        </div>
-
-        <div className="ps-instructionDivider" />
-
-        <div className="ps-instructionItem">
-          <kbd className="ps-kbd">Enter</kbd>
-          <span className="ps-instructionLabel">Select</span>
-        </div>
-      </div>
-
       {/* Carousel */}
       <div
         className="ps-carouselWrapper"
@@ -384,17 +335,39 @@ const PlatformSelector = ({ onSelectPlatform, setInitialUrl }) => {
           ))}
         </div>
       </div>
+      
+      {/* Navigation Bar Above Cards */}
+      <div className="ps-navBar">
+        <button className="ps-navArrowButton" onClick={goToPrev} aria-label="Previous platform">
+          <svg viewBox="0 0 24 24" fill="currentColor" className="ps-arrowIcon">
+            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+          </svg>
+        </button>
 
-      {/* Disclaimer */}
-      <div className="ps-disclaimer">
-        <svg viewBox="0 0 24 24" fill="currentColor" className="ps-disclaimerIcon">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
-        </svg>
-        <span>
-          Please respect the Terms of Service of all platforms. Download content for personal use only and
-          respect content creators&apos; rights.
-        </span>
+        <div className="ps-dotsContainer">
+          {platforms.map((platform, index) => (
+            <button
+              key={platform.id}
+              className={`ps-dot ${index === activeIndex ? 'ps-dotActive' : ''}`}
+              style={
+                index === activeIndex
+                  ? { background: platform.gradient, boxShadow: `0 0 20px ${platform.color}` }
+                  : undefined
+              }
+              onClick={() => goToIndex(index)}
+              aria-label={`Go to ${platform.name}`}
+            />
+          ))}
+        </div>
+
+        <button className="ps-navArrowButton" onClick={goToNext} aria-label="Next platform">
+          <svg viewBox="0 0 24 24" fill="currentColor" className="ps-arrowIcon">
+            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+          </svg>
+        </button>
       </div>
+
+    
 
       {/* Error shown at the bottom (under everything) */}
       {detectError && (
