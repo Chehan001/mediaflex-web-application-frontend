@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import VideoDownloader from './components/VideoDownloader';
 import FacebookDownloader from './components/FacebookDownloader';
 import InstagramDownloader from './components/InstagramDownloader';
@@ -6,10 +6,10 @@ import TikTokDownloader from './components/TikTokDownloader';
 import TwitterDownloader from './components/TwitterDownloader';
 import DirectDownloader from './components/DirectDownloader';
 import PlatformSelector from './components/PlatformSelector';
-import { Youtube, Facebook, Instagram, Download, Zap, Shield, Heart, ArrowLeft, Film, Music, Sparkles, Link2 } from 'lucide-react';
+import { Youtube, Facebook, Instagram, Download, Zap, Shield, ArrowLeft, Film, Music, Sparkles, Link2 } from 'lucide-react';
 import './App.css';
 
-//Logo Component
+// Logo Component
 const XLogo = ({ size = 24, ...props }) => (
   <svg
     viewBox="0 0 24 24"
@@ -22,20 +22,32 @@ const XLogo = ({ size = 24, ...props }) => (
   </svg>
 );
 
+// Animated Bubble Component
+const AnimatedBubbles = () => {
+  return (
+    <>
+      {[...Array(8)].map((_, i) => (
+        <div key={i} className="bubble-dot" />
+      ))}
+    </>
+  );
+};
+
 function App() {
-  const [selectedPlatform, setSelectedPlatform] = useState(null); // null, 'youtube', 'facebook', 'instagram', 'tiktok', 'twitter', or 'direct'
-  const [initialUrl, setInitialUrl] = useState(''); // 🚀 NEW: Auto-detected URL
+  const [selectedPlatform, setSelectedPlatform] = useState(null);
+  const [initialUrl, setInitialUrl] = useState('');
 
   const handleBackToSelector = () => {
     setSelectedPlatform(null);
-    setInitialUrl(''); // Clear URL when going back
+    setInitialUrl('');
   };
 
   // Platform Selector (Landing Page)
   if (!selectedPlatform) {
     return (
       <div className="app-container">
-        {/* Background Decorations */}
+        {/* Animated Background */}
+        <AnimatedBubbles />
         <div className="bg-decoration bg-decoration-1"></div>
         <div className="bg-decoration bg-decoration-2"></div>
         <div className="bg-decoration bg-decoration-3"></div>
@@ -52,7 +64,8 @@ function App() {
   if (selectedPlatform === 'youtube') {
     return (
       <div className="app-container">
-        {/* Background Decorations */}
+        {/* Animated Background */}
+        <AnimatedBubbles />
         <div className="bg-decoration bg-decoration-1"></div>
         <div className="bg-decoration bg-decoration-2"></div>
         <div className="bg-decoration bg-decoration-3"></div>
@@ -110,10 +123,10 @@ function App() {
           <footer className="app-footer animate-fade-in" style={{ animationDelay: '0.4s' }}>
             <div className="footer-content">
               <p className="footer-text">
-                Made with <Heart size={14} className="heart-icon" /> for video enthusiasts
+                Made by Chehan001 for video enthusiasts
               </p>
               <p className="footer-disclaimer">
-                © 2026 MediaFlow Downloader • For educational purposes only
+                © 2026 MediaFlex Downloader
               </p>
               <p className="footer-note">
                 Please respect YouTube's Terms of Service and copyright laws
@@ -129,7 +142,8 @@ function App() {
   if (selectedPlatform === 'facebook') {
     return (
       <div className="app-container">
-        {/* Background Decorations */}
+        {/* Animated Background */}
+        <AnimatedBubbles />
         <div className="bg-decoration bg-decoration-1"></div>
         <div className="bg-decoration bg-decoration-2"></div>
         <div className="bg-decoration bg-decoration-3"></div>
@@ -187,10 +201,10 @@ function App() {
           <footer className="app-footer animate-fade-in" style={{ animationDelay: '0.4s' }}>
             <div className="footer-content">
               <p className="footer-text">
-                Made with <Heart size={14} className="heart-icon" /> for video enthusiasts
+                Made by Chehan001 for video enthusiasts
               </p>
               <p className="footer-disclaimer">
-                © 2026 MediaFlow Downloader • For educational purposes only
+                © 2026 MediaFlex Downloader
               </p>
               <p className="footer-note">
                 Please respect Facebook's Terms of Service and copyright laws
@@ -198,7 +212,6 @@ function App() {
             </div>
           </footer>
         </div>
-
       </div>
     );
   }
@@ -207,7 +220,8 @@ function App() {
   if (selectedPlatform === 'instagram') {
     return (
       <div className="app-container">
-        {/* Background Decorations */}
+        {/* Animated Background */}
+        <AnimatedBubbles />
         <div className="bg-decoration bg-decoration-1"></div>
         <div className="bg-decoration bg-decoration-2"></div>
         <div className="bg-decoration bg-decoration-3"></div>
@@ -265,10 +279,10 @@ function App() {
           <footer className="app-footer animate-fade-in" style={{ animationDelay: '0.4s' }}>
             <div className="footer-content">
               <p className="footer-text">
-                Made with <Heart size={14} className="heart-icon" /> for video enthusiasts
+                Made by Chehan001 for video enthusiasts
               </p>
               <p className="footer-disclaimer">
-                © 2026 MediaFlow Downloader • For educational purposes only
+                © 2026 MediaFlex Downloader
               </p>
               <p className="footer-note">
                 Please respect Instagram's Terms of Service and copyright laws
@@ -276,7 +290,6 @@ function App() {
             </div>
           </footer>
         </div>
-
       </div>
     );
   }
@@ -285,7 +298,8 @@ function App() {
   if (selectedPlatform === 'tiktok') {
     return (
       <div className="app-container">
-        {/* Background Decorations */}
+        {/* Animated Background */}
+        <AnimatedBubbles />
         <div className="bg-decoration bg-decoration-1"></div>
         <div className="bg-decoration bg-decoration-2"></div>
         <div className="bg-decoration bg-decoration-3"></div>
@@ -343,10 +357,10 @@ function App() {
           <footer className="app-footer animate-fade-in" style={{ animationDelay: '0.4s' }}>
             <div className="footer-content">
               <p className="footer-text">
-                Made with <Heart size={14} className="heart-icon" /> for video enthusiasts
+                Made by Chehan001 for video enthusiasts
               </p>
               <p className="footer-disclaimer">
-                © 2026 MediaFlow Downloader • For educational purposes only
+                © 2026 MediaFlex Downloader
               </p>
               <p className="footer-note">
                 Please respect TikTok's Terms of Service and copyright laws
@@ -354,7 +368,6 @@ function App() {
             </div>
           </footer>
         </div>
-
       </div>
     );
   }
@@ -363,7 +376,8 @@ function App() {
   if (selectedPlatform === 'twitter') {
     return (
       <div className="app-container">
-        {/* Background Decorations */}
+        {/* Animated Background */}
+        <AnimatedBubbles />
         <div className="bg-decoration bg-decoration-1"></div>
         <div className="bg-decoration bg-decoration-2"></div>
         <div className="bg-decoration bg-decoration-3"></div>
@@ -421,10 +435,10 @@ function App() {
           <footer className="app-footer animate-fade-in" style={{ animationDelay: '0.4s' }}>
             <div className="footer-content">
               <p className="footer-text">
-                Made with <Heart size={14} className="heart-icon" /> for video enthusiasts
+                Made by Chehan001 for video enthusiasts
               </p>
               <p className="footer-disclaimer">
-                © 2026 MediaFlow Downloader • For educational purposes only
+                © 2026 MediaFlex Downloader
               </p>
               <p className="footer-note">
                 Please respect X (Twitter) Terms of Service and copyright laws
@@ -432,7 +446,6 @@ function App() {
             </div>
           </footer>
         </div>
-
       </div>
     );
   }
@@ -441,7 +454,8 @@ function App() {
   if (selectedPlatform === 'direct') {
     return (
       <div className="app-container">
-        {/* Background Decorations */}
+        {/* Animated Background */}
+        <AnimatedBubbles />
         <div className="bg-decoration bg-decoration-1"></div>
         <div className="bg-decoration bg-decoration-2"></div>
         <div className="bg-decoration bg-decoration-3"></div>
@@ -499,18 +513,14 @@ function App() {
           <footer className="app-footer animate-fade-in" style={{ animationDelay: '0.4s' }}>
             <div className="footer-content">
               <p className="footer-text">
-                Made with <Heart size={14} className="heart-icon" /> for video enthusiasts
+                Made by Chehan001 for video enthusiasts
               </p>
               <p className="footer-disclaimer">
-                © 2026 MediaFlow Downloader • For educational purposes only
-              </p>
-              <p className="footer-note">
-                Direct URLs expire quickly - download immediately after obtaining them
+                © 2026 MediaFlex Downloader
               </p>
             </div>
           </footer>
         </div>
-
       </div>
     );
   }
