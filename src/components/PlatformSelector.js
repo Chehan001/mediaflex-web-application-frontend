@@ -31,7 +31,7 @@ const PlatformSelector = ({ onSelectPlatform, setInitialUrl }) => {
           </svg>
         ),
         color: '#FF0000',
-        gradient: 'linear-gradient(135deg, #FF0000 0%, #CC0000 100%)',
+        gradient: 'linear-gradient(135deg, #fc2a2a 0%, #CC0000 100%)',
         description: 'Download videos & shorts',
         features: ['4K/8K Quality', 'Audio Only', 'Subtitles'],
       },
@@ -44,7 +44,7 @@ const PlatformSelector = ({ onSelectPlatform, setInitialUrl }) => {
           </svg>
         ),
         color: '#1877F2',
-        gradient: 'linear-gradient(135deg, #1877F2 0%, #0D5CBE 100%)',
+        gradient: 'linear-gradient(135deg, #7aa9f7 0%, #0D5CBE 100%)',
         description: 'Videos, Reels & Watch content',
         features: ['HD Quality', 'Private Videos', 'Reels'],
       },
@@ -70,7 +70,7 @@ const PlatformSelector = ({ onSelectPlatform, setInitialUrl }) => {
           </svg>
         ),
         color: '#000000',
-        gradient: 'linear-gradient(135deg, #00F2EA 0%, #FF0050 100%)',
+        gradient: 'linear-gradient(135deg, #d64ecf 0%, #550f9a 100%)',
         description: 'Videos without watermark',
         features: ['No Watermark', 'HD Quality', 'Audio'],
       },
@@ -83,7 +83,7 @@ const PlatformSelector = ({ onSelectPlatform, setInitialUrl }) => {
           </svg>
         ),
         color: '#000000',
-        gradient: 'linear-gradient(135deg, #1DA1F2 0%, #14171A 100%)',
+        gradient: 'linear-gradient(135deg, #010204 0%, #39404e 100%)',
         description: 'Videos, GIFs & Media',
         features: ['HD Video', 'GIFs', 'Threads'],
       },
@@ -96,7 +96,7 @@ const PlatformSelector = ({ onSelectPlatform, setInitialUrl }) => {
           </svg>
         ),
         color: '#6366F1',
-        gradient: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+        gradient: 'linear-gradient(135deg, #9496f1 0%, #4a1fb0 100%)',
         description: 'Any video URL',
         features: ['Any Site', 'M3U8/HLS', 'Direct MP4'],
       },

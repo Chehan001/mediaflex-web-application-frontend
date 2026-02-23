@@ -6,7 +6,6 @@ import {
   Loader2,
   AlertCircle,
   CheckCircle2,
-  Link2,
   User,
   Clock,
   Heart,
@@ -231,7 +230,6 @@ const TwitterDownloader = ({ initialUrl }) => {
 
       <form onSubmit={handleUrlSubmit} className="url-form">
         <div className="input-wrapper">
-          <Link2 className="input-icon" size={20} />
           <input
             type="text"
             value={url}
