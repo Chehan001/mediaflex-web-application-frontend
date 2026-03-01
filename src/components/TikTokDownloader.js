@@ -28,16 +28,13 @@ const TikTokDownloader = ({ initialUrl }) => {
   const [thumbnailError, setThumbnailError] = useState(false);
   const [removeWatermark, setRemoveWatermark] = useState(true);
 
-  // Progress states
   const [downloadProgress, setDownloadProgress] = useState(0);
   const [downloadStage, setDownloadStage] = useState('');
 
-  // Server health states
   const [diskWarning, setDiskWarning] = useState('');
 
   const eventSourceRef = useRef(null);
 
-  // Check server health on mount
   useEffect(() => {
     const checkServerHealth = async () => {
       try {
@@ -54,12 +51,11 @@ const TikTokDownloader = ({ initialUrl }) => {
     checkServerHealth();
   }, []);
 
-  // 🚀 TRIGGER AUTO-FETCH if initialUrl is present
   useEffect(() => {
     if (initialUrl) {
       handleUrlSubmit(new Event('submit'));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  
   }, [initialUrl]);
 
   // Validate TikTok URL
@@ -192,7 +188,7 @@ const TikTokDownloader = ({ initialUrl }) => {
 
     } catch (err) {
       if (err.response?.status === 507) {
-        setError(`💾 ${err.response.data.message || 'Insufficient disk space'}`);
+        setError(` ${err.response.data.message || 'Insufficient disk space'}`);
         setDiskWarning(err.response.data.message);
       } else {
         setError(err.response?.data?.error || err.response?.data?.message || 'Download failed');

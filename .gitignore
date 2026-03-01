@@ -23,3 +23,7 @@ package.json
 
 setupTests.js
 reportWebVitals.js
+
+.env.production
+.env.development
+.env.test

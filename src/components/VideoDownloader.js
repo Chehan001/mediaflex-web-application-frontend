@@ -32,7 +32,7 @@ const VideoDownloader = ({ initialUrl }) => {
   const [downloading, setDownloading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [activeTab, setActiveTab] = useState('video'); // 'video' or 'audio'
+  const [activeTab, setActiveTab] = useState('video'); 
 
   // New states for two-step fetching optimization
   const [, setLoadingMetadata] = useState(false);
@@ -92,7 +92,7 @@ const VideoDownloader = ({ initialUrl }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialUrl]);
 
-  // STEP 1: Fetch only metadata (FAST - 2-4 seconds)
+  // STEP 1-->  Fetch only metadata 
   const fetchMetadata = async (videoUrl) => {
     setLoadingMetadata(true);
     try {
@@ -100,7 +100,7 @@ const VideoDownloader = ({ initialUrl }) => {
       setVideoInfo(prevInfo => ({
         ...prevInfo,
         ...response.data,
-        formats: [], // Will be loaded in step 2
+        formats: [], 
       }));
       setMetadataLoaded(true);
       return true;
@@ -112,7 +112,7 @@ const VideoDownloader = ({ initialUrl }) => {
     }
   };
 
-  // 🚀 STEP 2: Fetch formats lazily (happens in background)
+  // STEP 2 --> Fetch formats lazily 
   const fetchFormats = async (videoUrl) => {
     setLoadingFormats(true);
     try {
@@ -147,14 +147,14 @@ const VideoDownloader = ({ initialUrl }) => {
     setFormatsLoaded(false);
 
     try {
-      // 🚀 STEP 1: Fetch metadata first (INSTANT UI UPDATE)
+      //  STEP 1 -->  Fetch metadata first 
       const metadataSuccess = await fetchMetadata(url);
 
       if (metadataSuccess) {
         setSuccess('Video found! ✓ Loading formats...');
 
-        // 🚀 STEP 2: Fetch formats in background
-        fetchFormats(url); // Don't await - let it run in background
+        // STEP 2 --> Fetch formats in background
+        fetchFormats(url); 
       }
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to fetch video information');
@@ -251,7 +251,7 @@ const VideoDownloader = ({ initialUrl }) => {
       // Handle specific error types
       if (err.response?.status === 507) {
         // Insufficient disk space
-        setError(`💾 ${err.response.data.message || 'Insufficient disk space'}`);
+        setError(` ${err.response.data.message || 'Insufficient disk space'}`);
         setDiskWarning(err.response.data.message);
       } else {
         setError(err.response?.data?.error || err.response?.data?.message || 'Download failed');
@@ -294,7 +294,6 @@ const VideoDownloader = ({ initialUrl }) => {
     return num.toLocaleString();
   };
 
-  // Format quality text - remove underscores and capitalize properly
   const formatQualityText = (text) => {
     if (!text) return '';
     return text
@@ -306,11 +305,10 @@ const VideoDownloader = ({ initialUrl }) => {
 
   // Get display format for audio (prefer audioQuality over container)
   const getAudioFormat = (format) => {
-    // If it has audioQuality, use that
+
     if (format.audioQuality) {
       return formatQualityText(format.audioQuality);
     }
-    // Otherwise show bitrate or quality
     if (format.audioBitrate) {
       return `${format.audioBitrate}kbps`;
     }
