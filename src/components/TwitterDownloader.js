@@ -61,8 +61,9 @@ const TwitterDownloader = ({ initialUrl }) => {
 
   useEffect(() => {
     if (initialUrl) {
-      handleUrlSubmit({ preventDefault: () => {} });
+      handleUrlSubmit({ preventDefault: () => { } });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialUrl]);
 
   const isValidTwitterUrl = (inputUrl) => {

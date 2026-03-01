@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import VideoDownloader from './components/VideoDownloader';
 import FacebookDownloader from './components/FacebookDownloader';
 import InstagramDownloader from './components/InstagramDownloader';

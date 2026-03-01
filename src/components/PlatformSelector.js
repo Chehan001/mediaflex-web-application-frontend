@@ -4,9 +4,7 @@ import { Search, Loader2, Link2, AlertCircle } from 'lucide-react';
 
 import '../styles/PlatformSelector.css';
 
-const API_BASE_URL =
-  process.env.REACT_APP_API_URL ||
-  (process.env.NODE_ENV === 'production' ? '/api' : 'http://localhost:5000/api');
+const API_BASE_URL = '/api';
 
 const PlatformSelector = ({ onSelectPlatform, setInitialUrl }) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -335,7 +333,7 @@ const PlatformSelector = ({ onSelectPlatform, setInitialUrl }) => {
           ))}
         </div>
       </div>
-      
+
       {/* Navigation Bar Above Cards */}
       <div className="ps-navBar">
         <button className="ps-navArrowButton" onClick={goToPrev} aria-label="Previous platform">
@@ -367,7 +365,7 @@ const PlatformSelector = ({ onSelectPlatform, setInitialUrl }) => {
         </button>
       </div>
 
-    
+
 
       {/* Error shown at the bottom (under everything) */}
       {detectError && (

@@ -22,7 +22,7 @@ import {
 } from 'lucide-react';
 import '../styles/VideoDownloader.css';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || '/api';
+const API_BASE_URL = '/api';
 
 const VideoDownloader = ({ initialUrl }) => {
   const [url, setUrl] = useState(initialUrl || '');
@@ -35,14 +35,13 @@ const VideoDownloader = ({ initialUrl }) => {
   const [activeTab, setActiveTab] = useState('video'); // 'video' or 'audio'
 
   // New states for two-step fetching optimization
-  const [_loadingMetadata, setLoadingMetadata] = useState(false);
+  const [, setLoadingMetadata] = useState(false);
   const [loadingFormats, setLoadingFormats] = useState(false);
-  // eslint-disable-next-line no-unused-vars
-  const [_metadataLoaded, setMetadataLoaded] = useState(false);
+  const [, setMetadataLoaded] = useState(false);
   const [formatsLoaded, setFormatsLoaded] = useState(false);
 
   // Cookie & Disk space health states
-  const [_serverHealth, setServerHealth] = useState(null);
+  const [, setServerHealth] = useState(null);
   const [cookieWarning, setCookieWarning] = useState('');
   const [diskWarning, setDiskWarning] = useState('');
 

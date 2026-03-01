@@ -23,7 +23,7 @@ import {
 import "../styles/FacebookDownloader.css";
 
 // (setupProxy.js)
-const API_BASE_URL = process.env.REACT_APP_API_URL || "/api";
+const API_BASE_URL = '/api';
 
 export default function FacebookDownloader({ initialUrl }) {
   const [url, setUrl] = useState(initialUrl || "");
@@ -105,7 +105,7 @@ export default function FacebookDownloader({ initialUrl }) {
         if (data?.cookieStatus && !data.cookieStatus.valid) {
           setCookieWarning(
             data.cookieStatus.message ||
-              "Cookies not configured. Some videos may be restricted."
+            "Cookies not configured. Some videos may be restricted."
           );
         } else {
           setCookieWarning("");
@@ -130,7 +130,7 @@ export default function FacebookDownloader({ initialUrl }) {
       setUrl(initialUrl);
       // run after state update
       setTimeout(() => {
-        handleUrlSubmit({ preventDefault: () => {} });
+        handleUrlSubmit({ preventDefault: () => { } });
       }, 0);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -188,7 +188,7 @@ export default function FacebookDownloader({ initialUrl }) {
       } else if (status === 403) {
         setError(
           backendMsg ||
-            "This video may be private/age restricted. Add cookies.txt to backend."
+          "This video may be private/age restricted. Add cookies.txt to backend."
         );
       } else {
         setError(backendMsg || "Failed to fetch Facebook video information");
