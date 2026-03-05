@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 import {
   Search,
@@ -21,12 +21,21 @@ import '../styles/TwitterDownloader.css';
 
 const API_BASE_URL = '/api';
 
-// X  Logo
 const XLogo = ({ size = 24, ...props }) => (
   <svg viewBox="0 0 24 24" width={size} height={size} fill="currentColor" {...props}>
     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
   </svg>
 );
+
+const isValidTwitterUrl = (inputUrl) => {
+  const twitterPatterns = [
+    /(?:twitter\.com|x\.com)\/\w+\/status\/\d+/i,
+    /(?:mobile\.)?twitter\.com\/\w+\/status\/\d+/i,
+    /(?:mobile\.)?x\.com\/\w+\/status\/\d+/i,
+    /t\.co\/\w+/i,
+  ];
+  return twitterPatterns.some((pattern) => pattern.test(inputUrl));
+};
 
 const TwitterDownloader = ({ initialUrl }) => {
   const [url, setUrl] = useState(initialUrl || '');
@@ -40,7 +49,6 @@ const TwitterDownloader = ({ initialUrl }) => {
 
   const [downloadProgress, setDownloadProgress] = useState(0);
   const [downloadStage, setDownloadStage] = useState('');
-
   const [diskWarning, setDiskWarning] = useState('');
 
   const eventSourceRef = useRef(null);
@@ -59,30 +67,14 @@ const TwitterDownloader = ({ initialUrl }) => {
     checkServerHealth();
   }, []);
 
-  useEffect(() => {
-    if (initialUrl) {
-      handleUrlSubmit({ preventDefault: () => { } });
-    }
-  }, [initialUrl]);
+  const fetchVideoInfo = useCallback(async (inputUrl) => {
+    const finalUrl = (inputUrl || '').trim();
 
-  const isValidTwitterUrl = (inputUrl) => {
-    const twitterPatterns = [
-      /(?:twitter\.com|x\.com)\/\w+\/status\/\d+/i,
-      /(?:mobile\.)?twitter\.com\/\w+\/status\/\d+/i,
-      /(?:mobile\.)?x\.com\/\w+\/status\/\d+/i,
-      /t\.co\/\w+/i,
-    ];
-    return twitterPatterns.some((pattern) => pattern.test(inputUrl));
-  };
-
-  const handleUrlSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!url.trim()) {
+    if (!finalUrl) {
       setError('Please enter an X (Twitter) URL');
       return;
     }
-    if (!isValidTwitterUrl(url)) {
+    if (!isValidTwitterUrl(finalUrl)) {
       setError('Please enter a valid X (Twitter) video URL');
       return;
     }
@@ -95,7 +87,7 @@ const TwitterDownloader = ({ initialUrl }) => {
     setSelectedQuality(null);
 
     try {
-      const response = await axios.post(`${API_BASE_URL}/twitter/video-info`, { url });
+      const response = await axios.post(`${API_BASE_URL}/twitter/video-info`, { url: finalUrl });
       setVideoInfo(response.data);
 
       if (response.data.formats && response.data.formats.length > 0) {
@@ -112,7 +104,22 @@ const TwitterDownloader = ({ initialUrl }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    if (initialUrl && initialUrl.trim()) {
+      setUrl(initialUrl);
+      fetchVideoInfo(initialUrl);
+    }
+  }, [initialUrl, fetchVideoInfo]);
+
+  const handleUrlSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      await fetchVideoInfo(url);
+    },
+    [fetchVideoInfo, url]
+  );
 
   const handleDownload = async () => {
     if (!videoInfo || !selectedQuality) {
@@ -127,7 +134,6 @@ const TwitterDownloader = ({ initialUrl }) => {
     setDownloadStage('Starting download...');
 
     try {
-      //FIXED endpoint
       const response = await axios.post(`${API_BASE_URL}/twitter/download-start`, {
         url,
         formatId: selectedQuality,

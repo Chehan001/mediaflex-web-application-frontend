@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 import {
   Search,
@@ -18,6 +18,17 @@ import {
 
 const API_BASE_URL = '/api';
 
+const isValidTikTokUrl = (inputUrl) => {
+  const tiktokPatterns = [
+    /tiktok\.com\/@[\w.-]+\/video\/\d+/i,
+    /tiktok\.com\/t\/\w+/i,
+    /vm\.tiktok\.com\/\w+/i,
+    /vt\.tiktok\.com\/\w+/i,
+    /tiktok\.com\/.*\/video\/\d+/i,
+  ];
+  return tiktokPatterns.some((pattern) => pattern.test(inputUrl));
+};
+
 const TikTokDownloader = ({ initialUrl }) => {
   const [url, setUrl] = useState(initialUrl || '');
   const [videoInfo, setVideoInfo] = useState(null);
@@ -30,7 +41,6 @@ const TikTokDownloader = ({ initialUrl }) => {
 
   const [downloadProgress, setDownloadProgress] = useState(0);
   const [downloadStage, setDownloadStage] = useState('');
-
   const [diskWarning, setDiskWarning] = useState('');
 
   const eventSourceRef = useRef(null);
@@ -39,7 +49,6 @@ const TikTokDownloader = ({ initialUrl }) => {
     const checkServerHealth = async () => {
       try {
         const response = await axios.get(`${API_BASE_URL}/health`);
-
         if (response.data.diskSpace && !response.data.diskSpace.sufficient) {
           setDiskWarning(response.data.diskSpace.message);
         }
@@ -47,37 +56,18 @@ const TikTokDownloader = ({ initialUrl }) => {
         console.error('Failed to check server health:', err);
       }
     };
-
     checkServerHealth();
   }, []);
 
-  useEffect(() => {
-    if (initialUrl) {
-      handleUrlSubmit(new Event('submit'));
-    }
-  
-  }, [initialUrl]);
+  const fetchVideoInfo = useCallback(async (inputUrl) => {
+    const finalUrl = (inputUrl || '').trim();
 
-  // Validate TikTok URL
-  const isValidTikTokUrl = (inputUrl) => {
-    const tiktokPatterns = [
-      /tiktok\.com\/@[\w.-]+\/video\/\d+/i,  // Standard video URL
-      /tiktok\.com\/t\/\w+/i,                 // Short share URL
-      /vm\.tiktok\.com\/\w+/i,                // VM short URL
-      /vt\.tiktok\.com\/\w+/i,                // VT short URL
-      /tiktok\.com\/.*\/video\/\d+/i,         // Alternative format
-    ];
-    return tiktokPatterns.some(pattern => pattern.test(inputUrl));
-  };
-
-  const handleUrlSubmit = async (e) => {
-    e.preventDefault();
-    if (!url.trim()) {
+    if (!finalUrl) {
       setError('Please enter a TikTok URL');
       return;
     }
 
-    if (!isValidTikTokUrl(url)) {
+    if (!isValidTikTokUrl(finalUrl)) {
       setError('Please enter a valid TikTok video URL');
       return;
     }
@@ -89,13 +79,12 @@ const TikTokDownloader = ({ initialUrl }) => {
     setThumbnailError(false);
 
     try {
-      const response = await axios.post(`${API_BASE_URL}/tiktok/video-info`, { url });
+      const response = await axios.post(`${API_BASE_URL}/tiktok/video-info`, { url: finalUrl });
       setVideoInfo(response.data);
       setSuccess('Video found! Click download to save.');
     } catch (err) {
       const errorMsg = err.response?.data?.error || 'Failed to fetch video information';
 
-      // Friendly error messages for TikTok
       if (errorMsg.includes('private') || errorMsg.includes('login')) {
         setError('🔒 This video is private or restricted.');
       } else if (errorMsg.includes('unavailable') || errorMsg.includes('removed') || errorMsg.includes('deleted')) {
@@ -110,14 +99,26 @@ const TikTokDownloader = ({ initialUrl }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  // Cleanup event source on unmount
+  useEffect(() => {
+    if (initialUrl && initialUrl.trim()) {
+      setUrl(initialUrl);
+      fetchVideoInfo(initialUrl);
+    }
+  }, [initialUrl, fetchVideoInfo]);
+
+  const handleUrlSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      await fetchVideoInfo(url);
+    },
+    [fetchVideoInfo, url]
+  );
+
   useEffect(() => {
     return () => {
-      if (eventSourceRef.current) {
-        eventSourceRef.current.close();
-      }
+      if (eventSourceRef.current) eventSourceRef.current.close();
     };
   }, []);
 
@@ -142,7 +143,6 @@ const TikTokDownloader = ({ initialUrl }) => {
 
       const { downloadId } = response.data;
 
-      // Connect to SSE for progress updates
       const eventSource = new EventSource(`${API_BASE_URL}/download-progress/${downloadId}`);
       eventSourceRef.current = eventSource;
 
@@ -157,7 +157,6 @@ const TikTokDownloader = ({ initialUrl }) => {
           setDownloadStage('Download ready!');
           eventSource.close();
 
-          // Trigger file download
           const link = document.createElement('a');
           link.href = `${API_BASE_URL}/download-file/${downloadId}?filename=${encodeURIComponent(data.filename)}`;
           link.download = data.filename;
@@ -185,7 +184,6 @@ const TikTokDownloader = ({ initialUrl }) => {
         setDownloadProgress(0);
         setDownloadStage('');
       };
-
     } catch (err) {
       if (err.response?.status === 507) {
         setError(` ${err.response.data.message || 'Insufficient disk space'}`);
@@ -208,19 +206,14 @@ const TikTokDownloader = ({ initialUrl }) => {
 
   const formatCount = (count) => {
     if (!count) return '0';
-    const num = parseInt(count);
-    if (num >= 1000000) {
-      return `${(num / 1000000).toFixed(1)}M`;
-    }
-    if (num >= 1000) {
-      return `${(num / 1000).toFixed(1)}K`;
-    }
+    const num = parseInt(count, 10);
+    if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`;
+    if (num >= 1000) return `${(num / 1000).toFixed(1)}K`;
     return num.toLocaleString();
   };
 
   return (
     <div className="tiktok-downloader">
-      {/* Disk Space Warning */}
       {diskWarning && (
         <div className="warning-banner disk-warning">
           <AlertCircle size={16} />
@@ -228,7 +221,6 @@ const TikTokDownloader = ({ initialUrl }) => {
         </div>
       )}
 
-      {/* Supported Video Types */}
       <div className="supported-types-banner" style={{
         display: 'flex',
         alignItems: 'center',
@@ -247,7 +239,6 @@ const TikTokDownloader = ({ initialUrl }) => {
         </span>
       </div>
 
-      {/* URL Input Section */}
       <div className="input-section tiktok-input">
         <div className="input-header">
           <Link2 size={20} className="input-icon tiktok-icon-color" />
@@ -289,7 +280,6 @@ const TikTokDownloader = ({ initialUrl }) => {
         </div>
       </div>
 
-      {/* Error Message */}
       {error && (
         <div className="message error-message">
           <AlertCircle size={18} />
@@ -297,7 +287,6 @@ const TikTokDownloader = ({ initialUrl }) => {
         </div>
       )}
 
-      {/* Success Message */}
       {success && (
         <div className="message success-message">
           <CheckCircle2 size={18} />
@@ -305,10 +294,8 @@ const TikTokDownloader = ({ initialUrl }) => {
         </div>
       )}
 
-      {/* Video Info Display */}
       {videoInfo && (
         <div className="video-info-section tiktok-video-section">
-          {/* Video Preview */}
           <div className="video-preview">
             <div className="thumbnail-container tiktok-thumbnail">
               {videoInfo.thumbnail && !thumbnailError ? (
@@ -325,12 +312,14 @@ const TikTokDownloader = ({ initialUrl }) => {
                   <Music size={48} />
                 </div>
               )}
+
               {videoInfo.duration && (
                 <div className="duration-badge">
                   <Clock size={12} />
                   {formatDuration(videoInfo.duration)}
                 </div>
               )}
+
               <div className="platform-badge tiktok-badge">
                 <Music size={12} />
                 TikTok
@@ -338,9 +327,7 @@ const TikTokDownloader = ({ initialUrl }) => {
             </div>
 
             <div className="video-details">
-              <h3 className="video-title">
-                {videoInfo.title || 'TikTok Video'}
-              </h3>
+              <h3 className="video-title">{videoInfo.title || 'TikTok Video'}</h3>
 
               <div className="video-meta">
                 {videoInfo.author && (
@@ -367,11 +354,8 @@ const TikTokDownloader = ({ initialUrl }) => {
                 </div>
               </div>
 
-              {videoInfo.description && (
-                <p className="video-caption">{videoInfo.description}</p>
-              )}
+              {videoInfo.description && <p className="video-caption">{videoInfo.description}</p>}
 
-              {/* Quality Badge */}
               <div className="quality-info">
                 <span className="quality-badge tiktok-quality">
                   {videoInfo.quality || 'Best Quality'} • MP4
@@ -379,7 +363,6 @@ const TikTokDownloader = ({ initialUrl }) => {
                 <span className="quality-note">Video + Audio included</span>
               </div>
 
-              {/* Remove Watermark Toggle */}
               <div className="watermark-toggle">
                 <label className="toggle-label">
                   <input
@@ -398,7 +381,6 @@ const TikTokDownloader = ({ initialUrl }) => {
             </div>
           </div>
 
-          {/* Download Progress */}
           {downloading && (
             <div className="progress-section">
               <div className="progress-header">
@@ -407,15 +389,11 @@ const TikTokDownloader = ({ initialUrl }) => {
                 <span className="progress-percent tiktok-progress">{Math.round(downloadProgress)}%</span>
               </div>
               <div className="progress-bar-container">
-                <div
-                  className="progress-bar tiktok-progress-bar"
-                  style={{ width: `${downloadProgress}%` }}
-                />
+                <div className="progress-bar tiktok-progress-bar" style={{ width: `${downloadProgress}%` }} />
               </div>
             </div>
           )}
 
-          {/* Download Button */}
           <button
             onClick={handleDownload}
             disabled={downloading}
