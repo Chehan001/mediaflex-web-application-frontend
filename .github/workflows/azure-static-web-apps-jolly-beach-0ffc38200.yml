@@ -14,14 +14,10 @@ jobs:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
     name: Build and Deploy Job
-    steps:
-      - uses: actions/checkout@v4
 
-      # Pin Node version so Oryx won't fail detection/build
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Build And Deploy
         id: builddeploy
@@ -32,13 +28,15 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_JOLLY_BEACH_0FFC38200 }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "client"  
-          api_location: ""         
-          output_location: "build" 
+          app_location: "/"         
+          api_location: ""           
+          output_location: "build"  
+
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
     runs-on: ubuntu-latest
     name: Close Pull Request Job
+
     steps:
       - name: Close Pull Request
         id: closepullrequest
