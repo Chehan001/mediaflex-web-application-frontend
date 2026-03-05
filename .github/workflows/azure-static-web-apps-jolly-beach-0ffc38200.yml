@@ -17,20 +17,21 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Install
+      - name: Install dependencies
         run: npm ci
 
-      - name: Build
+      - name: Build React app
         env:
           CI: false
         run: npm run build
 
-      - name: Verify build output
+      - name: Verify build exists
         run: |
+          ls -la
           ls -la build
           test -f build/index.html
 
-      - name: Deploy to Azure Static Web Apps
+      - name: Deploy
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_JOLLY_BEACH_0FFC38200 }}
