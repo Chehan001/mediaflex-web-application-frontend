@@ -22,7 +22,7 @@ import {
 } from 'lucide-react';
 import '../styles/VideoDownloader.css';
 
-const API_BASE_URL = '/api';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
 const VideoDownloader = ({ initialUrl }) => {
   const [url, setUrl] = useState(initialUrl || '');
@@ -32,7 +32,7 @@ const VideoDownloader = ({ initialUrl }) => {
   const [downloading, setDownloading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [activeTab, setActiveTab] = useState('video'); 
+  const [activeTab, setActiveTab] = useState('video');
 
   // New states for two-step fetching optimization
   const [, setLoadingMetadata] = useState(false);
@@ -100,7 +100,7 @@ const VideoDownloader = ({ initialUrl }) => {
       setVideoInfo(prevInfo => ({
         ...prevInfo,
         ...response.data,
-        formats: [], 
+        formats: [],
       }));
       setMetadataLoaded(true);
       return true;
@@ -154,7 +154,7 @@ const VideoDownloader = ({ initialUrl }) => {
         setSuccess('Video found! ✓ Loading formats...');
 
         // STEP 2 --> Fetch formats in background
-        fetchFormats(url); 
+        fetchFormats(url);
       }
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to fetch video information');
