@@ -1,0 +1,321 @@
+/* Root */
+.dd-root {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Banner */
+.dd-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(59, 246, 137, 0.1) 0%, rgba(92, 246, 187, 0.08) 100%);
+  border: 1px solid rgba(99, 241, 172, 0.3);
+}
+
+.dd-banner__icon {
+  color: #068b51;
+  flex-shrink: 0;
+}
+
+.dd-banner__text {
+  margin: 0;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.5;
+}
+
+.dd-banner__text strong {
+  color: #068b51;
+}
+
+/* Form */
+.dd-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dd-form__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.dd-form__header-icon {
+    color: #068b51;
+}
+
+.dd-form__fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Inputs */
+.dd-input {
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.25);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.dd-input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.dd-input:focus {
+  border-color: #818cf8;
+  box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.15);
+}
+
+.dd-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dd-input--secondary {
+  font-size: 0.825rem;
+}
+
+/* Button */
+.dd-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: none;
+   background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-700) 100%);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+  width: 100%;
+}
+
+.dd-btn:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.dd-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.dd-btn--loading {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+}
+
+/* Status Messages */
+.dd-status {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.dd-status--error {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+}
+
+.dd-status--success {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #6ee7b7;
+}
+
+.dd-status svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Progress */
+.dd-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: dd-fade-in 0.25s ease;
+}
+
+.dd-progress__preview {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.dd-progress__icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  color: #818cf8;
+  flex-shrink: 0;
+}
+
+.dd-progress__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dd-progress__title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.dd-progress__subtitle {
+  margin: 0;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.dd-progress__track-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dd-progress__track-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.82rem;
+}
+
+.dd-progress__stage {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.dd-progress__percent {
+  font-weight: 700;
+  color: #818cf8;
+  font-variant-numeric: tabular-nums;
+}
+
+.dd-progress__track {
+  width: 100%;
+  height: 6px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.dd-progress__fill {
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #6366f1, #8b5cf6);
+  transition: width 0.4s ease;
+}
+
+/*Info Box */
+.dd-info {
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  overflow: hidden;
+}
+
+.dd-info__summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #10b981;
+  list-style: none;
+  user-select: none;
+}
+
+.dd-info__summary::-webkit-details-marker {
+  display: none;
+}
+
+.dd-info__summary::after {
+  content: '›';
+  margin-left: auto;
+  font-size: 1.1rem;
+  transition: transform 0.2s;
+}
+
+.dd-info[open] .dd-info__summary::after {
+  transform: rotate(90deg);
+}
+
+.dd-info__list {
+  margin: 0;
+  padding: 0 16px 14px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.7;
+}
+
+/* Utilities */
+.dd-spin {
+  animation: dd-spin 1s linear infinite;
+}
+
+@keyframes dd-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dd-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
