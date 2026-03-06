@@ -22,7 +22,7 @@ import {
 } from 'lucide-react';
 import '../styles/VideoDownloader.css';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+const API_BASE_URL = process.env.REACT_APP_API_URL || '/api';
 
 const VideoDownloader = ({ initialUrl }) => {
   const [url, setUrl] = useState(initialUrl || '');
