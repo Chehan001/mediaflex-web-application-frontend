@@ -466,9 +466,18 @@ const VideoDownloader = ({ initialUrl }) => {
           <div className="video-content">
             <div className="thumbnail-container">
               <img
-                src={videoInfo.thumbnail}
+                src={`${API_BASE_URL}/proxy-image?url=${encodeURIComponent(videoInfo.thumbnail)}`}
                 alt={videoInfo.title}
                 className="video-thumbnail"
+                referrerPolicy="no-referrer"
+                onError={(e) => {
+                  // Fallback to original URL if proxy fails, or default image
+                  if (e.target.src.includes('proxy-image')) {
+                    e.target.src = videoInfo.thumbnail;
+                  } else {
+                    e.target.style.display = 'none';
+                  }
+                }}
               />
               <div className="thumbnail-overlay">
                 <div className="duration-badge">
