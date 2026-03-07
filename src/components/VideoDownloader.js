@@ -79,12 +79,10 @@ const VideoDownloader = ({ initialUrl }) => {
     };
 
     checkServerHealth();
-    // Re-check every 5 minutes
     const interval = setInterval(checkServerHealth, 5 * 60 * 1000);
     return () => clearInterval(interval);
   }, []);
 
-  // TRIGGER AUTO-FETCH if initialUrl is present
   useEffect(() => {
     if (initialUrl) {
       handleUrlSubmit(new Event('submit'));
@@ -380,15 +378,6 @@ const VideoDownloader = ({ initialUrl }) => {
           <button onClick={() => setDiskWarning('')} className="dismiss-btn">×</button>
         </div>
       )}
-
-      {/* Supported Video Types Banner */}
-      <div className="info-banner supported-types-banner" style={{ marginBottom: '20px', background: 'linear-gradient(135deg, rgba(255, 0, 0, 0.1) 0%, rgba(255, 0, 0, 0.05) 100%)', border: '1px solid rgba(255, 0, 0, 0.2)' }}>
-        <Video size={18} style={{ color: '#ff0000' }} />
-        <span>
-          <strong>Supported:</strong> Videos • Shorts • Music • Live Streams • Playlists • Age-Restricted (with cookies)
-        </span>
-      </div>
-
       {/* URL Input Card */}
       <div className="glass-card input-card">
         <div className="card-header">
@@ -527,7 +516,7 @@ const VideoDownloader = ({ initialUrl }) => {
             </button>
           </div>
 
-          {/* 🚀 Loading state for formats */}
+          {/*  Loading state for formats */}
           {loadingFormats && (
             <div className="formats-loading">
               <Loader2 className="spinner" size={24} />
