@@ -34,18 +34,15 @@ const VideoDownloader = ({ initialUrl }) => {
   const [success, setSuccess] = useState('');
   const [activeTab, setActiveTab] = useState('video');
 
-  // New states for two-step fetching optimization
   const [, setLoadingMetadata] = useState(false);
   const [loadingFormats, setLoadingFormats] = useState(false);
   const [, setMetadataLoaded] = useState(false);
   const [formatsLoaded, setFormatsLoaded] = useState(false);
 
-  // Cookie & Disk space health states
   const [, setServerHealth] = useState(null);
   const [cookieWarning, setCookieWarning] = useState('');
   const [diskWarning, setDiskWarning] = useState('');
 
-  // New states for advanced features
   const [downloadProgress, setDownloadProgress] = useState(0);
   const [downloadStage, setDownloadStage] = useState('');
   const [convertToMp3, setConvertToMp3] = useState(false);
@@ -53,28 +50,74 @@ const VideoDownloader = ({ initialUrl }) => {
   const [autoMerge, setAutoMerge] = useState(true);
   const eventSourceRef = useRef(null);
 
-  // Check server health on mount 
+  const getApiErrorMessage = (err, fallback = 'Something went wrong') => {
+    if (!err.response) {
+      return 'Cannot connect to the server. Please try again later.';
+    }
+
+    const status = err.response.status;
+    const data = err.response.data;
+
+    if (status === 403) {
+      return (
+        data?.error ||
+        data?.message ||
+        'Access denied. This video may be private, age-restricted, or require refreshed cookies.'
+      );
+    }
+
+    if (status === 404) {
+      return data?.error || data?.message || 'Requested resource was not found.';
+    }
+
+    if (status === 400) {
+      return data?.error || data?.message || 'Invalid request. Please check the URL and try again.';
+    }
+
+    if (status === 507) {
+      return data?.message || data?.error || 'Insufficient server disk space.';
+    }
+
+    if (status >= 500) {
+      return data?.error || data?.message || 'Server error. Please try again later.';
+    }
+
+    return data?.error || data?.message || fallback;
+  };
+
   useEffect(() => {
     const checkServerHealth = async () => {
       try {
         const response = await axios.get(`${API_BASE_URL}/health`);
         setServerHealth(response.data);
 
-        // Check cookie status
         if (response.data.cookieStatus) {
           if (!response.data.cookieStatus.valid) {
             setCookieWarning(response.data.cookieStatus.message);
           } else if (response.data.cookieStatus.expiringSoon) {
             setCookieWarning(response.data.cookieStatus.message);
+          } else {
+            setCookieWarning('');
           }
         }
 
-        // Check disk space
         if (response.data.diskSpace && !response.data.diskSpace.sufficient) {
           setDiskWarning(response.data.diskSpace.message);
+        } else {
+          setDiskWarning('');
         }
       } catch (err) {
         console.error('Failed to check server health:', err);
+
+        if (err.response?.status === 403) {
+          setCookieWarning(
+            err.response?.data?.message ||
+            err.response?.data?.error ||
+            'Server access is forbidden.'
+          );
+        } else if (!err.response) {
+          setCookieWarning('Cannot connect to server.');
+        }
       }
     };
 
@@ -90,7 +133,6 @@ const VideoDownloader = ({ initialUrl }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialUrl]);
 
-  // STEP 1-->  Fetch only metadata 
   const fetchMetadata = async (videoUrl) => {
     setLoadingMetadata(true);
     try {
@@ -103,14 +145,13 @@ const VideoDownloader = ({ initialUrl }) => {
       setMetadataLoaded(true);
       return true;
     } catch (err) {
-      setError(err.response?.data?.error || 'Failed to fetch video metadata');
+      setError(getApiErrorMessage(err, 'Failed to fetch video metadata'));
       return false;
     } finally {
       setLoadingMetadata(false);
     }
   };
 
-  // STEP 2 --> Fetch formats lazily 
   const fetchFormats = async (videoUrl) => {
     setLoadingFormats(true);
     try {
@@ -123,7 +164,7 @@ const VideoDownloader = ({ initialUrl }) => {
       setFormatsLoaded(true);
     } catch (err) {
       console.error('Failed to fetch formats:', err);
-      setError(err.response?.data?.error || 'Failed to fetch video formats');
+      setError(getApiErrorMessage(err, 'Failed to fetch video formats'));
     } finally {
       setLoadingFormats(false);
     }
@@ -131,6 +172,7 @@ const VideoDownloader = ({ initialUrl }) => {
 
   const handleUrlSubmit = async (e) => {
     e.preventDefault();
+
     if (!url.trim()) {
       setError('Please enter a YouTube URL');
       return;
@@ -145,23 +187,19 @@ const VideoDownloader = ({ initialUrl }) => {
     setFormatsLoaded(false);
 
     try {
-      //  STEP 1 -->  Fetch metadata first 
       const metadataSuccess = await fetchMetadata(url);
 
       if (metadataSuccess) {
         setSuccess('Video found! ✓ Loading formats...');
-
-        // STEP 2 --> Fetch formats in background
         fetchFormats(url);
       }
     } catch (err) {
-      setError(err.response?.data?.error || 'Failed to fetch video information');
+      setError(getApiErrorMessage(err, 'Failed to fetch video information'));
     } finally {
       setLoading(false);
     }
   };
 
-  // Cleanup event source on unmount
   useEffect(() => {
     return () => {
       if (eventSourceRef.current) {
@@ -188,7 +226,6 @@ const VideoDownloader = ({ initialUrl }) => {
       const shouldMerge = autoMerge && isVideoOnly;
       const shouldConvertMp3 = convertToMp3 && isAudioFormat;
 
-      // Start download with progress tracking
       const response = await axios.post(`${API_BASE_URL}/download-start`, {
         url,
         itag: selectedFormat.itag || selectedFormat.formatId,
@@ -201,7 +238,6 @@ const VideoDownloader = ({ initialUrl }) => {
 
       const { downloadId } = response.data;
 
-      // Connect to SSE for progress updates
       const eventSource = new EventSource(`${API_BASE_URL}/download-progress/${downloadId}`);
       eventSourceRef.current = eventSource;
 
@@ -216,7 +252,6 @@ const VideoDownloader = ({ initialUrl }) => {
           setDownloadStage('Download ready!');
           eventSource.close();
 
-          // Trigger file download
           const link = document.createElement('a');
           link.href = `${API_BASE_URL}/download-file/${downloadId}?filename=${encodeURIComponent(data.filename)}`;
           link.download = data.filename;
@@ -246,14 +281,13 @@ const VideoDownloader = ({ initialUrl }) => {
       };
 
     } catch (err) {
-      // Handle specific error types
+      const message = getApiErrorMessage(err, 'Download failed');
+      setError(message);
+
       if (err.response?.status === 507) {
-        // Insufficient disk space
-        setError(` ${err.response.data.message || 'Insufficient disk space'}`);
-        setDiskWarning(err.response.data.message);
-      } else {
-        setError(err.response?.data?.error || err.response?.data?.message || 'Download failed');
+        setDiskWarning(err.response?.data?.message || 'Insufficient disk space');
       }
+
       setDownloading(false);
       setDownloadProgress(0);
       setDownloadStage('');
@@ -261,9 +295,10 @@ const VideoDownloader = ({ initialUrl }) => {
   };
 
   const formatDuration = (seconds) => {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const secs = seconds % 60;
+    const totalSeconds = parseInt(seconds, 10) || 0;
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const secs = totalSeconds % 60;
 
     if (hours > 0) {
       return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
@@ -279,7 +314,7 @@ const VideoDownloader = ({ initialUrl }) => {
   };
 
   const formatViewCount = (count) => {
-    const num = parseInt(count);
+    const num = parseInt(count, 10) || 0;
     if (num >= 1000000000) {
       return `${(num / 1000000000).toFixed(1)}B`;
     }
@@ -301,9 +336,7 @@ const VideoDownloader = ({ initialUrl }) => {
       .join(' ');
   };
 
-  // Get display format for audio (prefer audioQuality over container)
   const getAudioFormat = (format) => {
-
     if (format.audioQuality) {
       return formatQualityText(format.audioQuality);
     }
@@ -316,15 +349,12 @@ const VideoDownloader = ({ initialUrl }) => {
     return 'Audio';
   };
 
-  // Filter formats based on active tab
   const getFilteredFormats = () => {
     if (!videoInfo?.formats) return [];
 
     if (activeTab === 'video') {
-      // Show formats with video (prioritize video+audio, then video-only)
       const videoFormats = videoInfo.formats.filter(format => format.hasVideo);
 
-      // Remove duplicates and sort by quality
       const uniqueFormats = [];
       const seen = new Set();
 
@@ -338,12 +368,10 @@ const VideoDownloader = ({ initialUrl }) => {
 
       return uniqueFormats.slice(0, 8);
     } else {
-      // Show audio-only formats (no video)
       const audioFormats = videoInfo.formats.filter(format =>
         !format.hasVideo && format.hasAudio
       );
 
-      // Remove duplicates based on quality and container
       const uniqueFormats = [];
       const seen = new Set();
 
@@ -361,7 +389,6 @@ const VideoDownloader = ({ initialUrl }) => {
 
   return (
     <div className="downloader-container">
-      {/* 🍪 Cookie Warning Banner */}
       {cookieWarning && (
         <div className="warning-banner cookie-warning">
           <AlertCircle size={18} />
@@ -370,7 +397,6 @@ const VideoDownloader = ({ initialUrl }) => {
         </div>
       )}
 
-      {/* 💾 Disk Space Warning Banner */}
       {diskWarning && (
         <div className="warning-banner disk-warning">
           <HardDrive size={18} />
@@ -378,7 +404,7 @@ const VideoDownloader = ({ initialUrl }) => {
           <button onClick={() => setDiskWarning('')} className="dismiss-btn">×</button>
         </div>
       )}
-      {/* URL Input Card */}
+
       <div className="glass-card input-card">
         <div className="card-header">
           <div className="card-icon">
@@ -420,7 +446,6 @@ const VideoDownloader = ({ initialUrl }) => {
           </div>
         </form>
 
-        {/* Status Messages */}
         {error && (
           <div className="alert alert-error">
             <AlertCircle size={18} />
@@ -436,7 +461,6 @@ const VideoDownloader = ({ initialUrl }) => {
         )}
       </div>
 
-      {/* Video Information Card */}
       {videoInfo && (
         <div className="glass-card video-card animate-fade-in">
           <div className="video-content">
@@ -449,7 +473,7 @@ const VideoDownloader = ({ initialUrl }) => {
               <div className="thumbnail-overlay">
                 <div className="duration-badge">
                   <Clock size={12} />
-                  <span>{formatDuration(parseInt(videoInfo.duration))}</span>
+                  <span>{formatDuration(videoInfo.duration)}</span>
                 </div>
               </div>
             </div>
@@ -479,7 +503,6 @@ const VideoDownloader = ({ initialUrl }) => {
         </div>
       )}
 
-      {/* Format Selection Card */}
       {videoInfo && (
         <div className="glass-card formats-card animate-fade-in" style={{ animationDelay: '0.1s' }}>
           <div className="card-header">
@@ -492,7 +515,6 @@ const VideoDownloader = ({ initialUrl }) => {
             </div>
           </div>
 
-          {/* Tab Navigation */}
           <div className="tabs-container">
             <button
               className={`tab-button ${activeTab === 'video' ? 'active' : ''}`}
@@ -516,7 +538,6 @@ const VideoDownloader = ({ initialUrl }) => {
             </button>
           </div>
 
-          {/*  Loading state for formats */}
           {loadingFormats && (
             <div className="formats-loading">
               <Loader2 className="spinner" size={24} />
@@ -524,10 +545,8 @@ const VideoDownloader = ({ initialUrl }) => {
             </div>
           )}
 
-          {/* Show formats once loaded */}
           {formatsLoaded && (
             <>
-              {/* Info banner for video-only formats */}
               {activeTab === 'video' && getFilteredFormats().some(f => f.hasVideo && !f.hasAudio) && (
                 <div className="info-banner">
                   <Sparkles size={16} />
@@ -602,12 +621,9 @@ const VideoDownloader = ({ initialUrl }) => {
             </>
           )}
 
-          {/* Download Options & Button */}
           {selectedFormat && (
             <div className="download-section animate-fade-in">
-              {/* Download Options */}
               <div className="download-options">
-                {/* Auto-merge option for video-only formats */}
                 {activeTab === 'video' && selectedFormat.hasVideo && !selectedFormat.hasAudio && (
                   <label className="option-checkbox">
                     <input
@@ -623,7 +639,6 @@ const VideoDownloader = ({ initialUrl }) => {
                   </label>
                 )}
 
-                {/* MP3 conversion option for audio formats */}
                 {activeTab === 'audio' && (
                   <div className="audio-options">
                     <label className="option-checkbox">
@@ -659,7 +674,6 @@ const VideoDownloader = ({ initialUrl }) => {
                 )}
               </div>
 
-              {/* Progress Bar */}
               {downloading && (
                 <div className="progress-container">
                   <div className="progress-info">
@@ -675,7 +689,6 @@ const VideoDownloader = ({ initialUrl }) => {
                 </div>
               )}
 
-              {/* Download Button */}
               <button
                 onClick={handleDownload}
                 disabled={downloading}

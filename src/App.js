@@ -103,8 +103,9 @@ function App() {
           <main className="app-main animate-slide-up" style={{ animationDelay: '0.2s' }}>
             <VideoDownloader initialUrl={initialUrl} />
           </main>
-
-           {/* Feature Pills */}
+          
+          <div>
+            {/* Feature Pills */}
             <div className="feature-pills">
               <div className="feature-pill">
                 <Zap size={14} />
@@ -119,6 +120,7 @@ function App() {
                 <span>Multiple Formats</span>
               </div>
             </div>
+          </div>
 
           {/* Footer */}
           <footer className="app-footer animate-fade-in" style={{ animationDelay: '0.4s' }}>
